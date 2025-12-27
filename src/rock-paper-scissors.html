@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn_Rock_Paper_Scissors</title>
+</head>
+<body>
+  <div>
+    <h1>
+      Rock Paper Scissors Game
+    </h1>
+  </div>
+  <div>
+    <button onclick="
+      const randomNumber = Math.floor ( Math.random() *3 );
+      let program = '';
+      let result = '';
+
+      if ( randomNumber === 0 ) {
+        program = 'Rock';
+      } else if ( randomNumber === 1 )
+      {
+        program = 'Paper';
+      } else if ( randomNumber === 2 )
+      {
+        program = 'Scissors';
+      }
+
+      if ( program === 'Rock' ) {
+        result = 'You Tie';
+      } else if ( program === 'Paper' ) {
+        result = 'You Lose';
+      } else if ( program === 'Scissors' ) {
+        result = 'You Win';
+      }
+
+      alert( `You Choose Rock \nComputer Choos ${program} \n${result}!` );
+    ">Rock</button>
+    <button onclick="
+      const randomNumber = Math.floor ( Math.random() *3 );
+      let program = '';
+      let result = '';
+
+      if ( randomNumber === 0 ) {
+        program = 'Rock';
+      } else if ( randomNumber === 1 )
+      {
+        program = 'Paper';
+      } else if ( randomNumber === 2 )
+      {
+        program = 'Scissors';
+      }
+
+      if ( program === 'Rock' ) {
+        result = 'You Lose';
+      } else if ( program === 'Paper' ) {
+        result = 'You Win';
+      } else if ( program === 'Scissors' ) {
+        result = 'Tie';
+      }
+
+      alert( `You Choose Scissors \nComputer Choos ${program} \n${result}!` );
+    ">Scissors</button>
+
+    <button onclick="
+      const randomNumber = Math.floor ( Math.random() *3 );
+      let program = '';
+      let result = '';
+
+      if ( randomNumber === 0 ) {
+        program = 'Rock';
+      } else if ( randomNumber === 1 )
+      {
+        program = 'Paper';
+      } else if ( randomNumber === 2 )
+      {
+        program = 'Scissors';
+      }
+
+      if ( program === 'Rock' ) {
+        result = 'You Win';
+      } else if ( program === 'Paper' ) {
+        result = 'Tie';
+      } else if ( program === 'Scissors' ) {
+        result = 'You Lose';
+      }
+
+      alert( `You Choose Paper \nComputer Choos ${program} \n${result}!` );
+    ">Paper</button>
+  </div>
+
+</body>
+<script>
+
+</script>
+</html>
