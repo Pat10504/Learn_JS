@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+</head>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+
+  }
+  body{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgb(255, 255, 255, 0.5);
+  }
+  .container{
+    padding: 15px;
+    background-color: rgba(26, 15, 193, 0.6);
+    border-radius: 15px;
+    border: 1.5px solid rgba(0, 0, 0, 0.6);;
+    box-shadow: 2px 2px 15px rgb(96, 96, 96);
+  }
+  .screen{
+    font-size: 24px;
+    text-align: end;
+    background-color: rgb(245, 247, 249);
+    border: 1.5px solid rgb(3, 3, 3, 0.8);
+    border-radius: 10px;
+    padding: 5px 10px;
+  }
+  .bt-row{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .bt-row button{
+    text-align: center;
+    background-color: rgba(233, 233, 234, 0.8);
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: 2px solid rgb(252, 253, 254);
+    transition: 0.3s all  ease;
+    cursor: pointer;
+  }
+  button:hover{
+    background-color: rgba(233, 233, 234, 0.5);
+  }
+  .bt-row button:first-child {
+    flex: 2;
+  }
+</style>
+<body>
+  <div class="container">
+
+    <div id="screen" class="screen"> 0 </div>
+
+    <div class="bt-row">
+      <button>←</button>
+      <button onclick="clearNumber()">AC</button>
+      <button onclick="setOperator('÷')">÷</button>
+    </div>
+    <div class="bt-row">
+      <button onclick="setNumber('7')">7</button>
+      <button onclick="setNumber('8')">8</button>
+      <button onclick="setNumber('9')">9</button>
+      <button onclick="setOperator('×')">×</button>
+    </div>
+    <div class="bt-row">
+      <button onclick="setNumber('4')">4</button>
+      <button onclick="setNumber('5')">5</button>
+      <button onclick="setNumber('6')">6</button>
+      <button onclick="setOperator('+')">+</button>
+    </div>
+    <div class="bt-row">
+      <button onclick="setNumber('1')">1</button>
+      <button onclick="setNumber('2')">2</button>
+      <button onclick="setNumber('3')">3</button>
+      <button onclick="setOperator('-')">-</button>
+    </div>
+    <div class="bt-row">
+      <button onclick="setNumber('0')">0</button>
+      <button onclick="setNumber('.')">.</button>
+      <button onclick="calCulator()">=</button>
+    </div>
+  </div>
+  <script>
+    let currentNumber = '0';
+    let previousNumber = '';
+    let operlator = '';
+
+    function updateScreen (){
+      console.log('Screen work');
+      document.getElementById('screen').innerHTML = currentNumber ;
+    }
+
+    function setNumber(number){
+      if (number !== '') {
+        currentNumber = number;
+        updateScreen();
+      }
+    }
+
+    function setOperator(op){
+      if (op !== '') {
+        previousNumber = currentNumber;
+        currentNumber = '';
+        operlator = op;
+      }
+    }
+
+    function calCulator(){
+      const curNumer = parseFloat(currentNumber);
+      const preNumber = parseFloat(previousNumber);
+      let result = 0;
+      if (operlator === '+'){
+        result = preNumber + curNumer;
+      }
+
+      currentNumber = result;
+      previousNumber = '';
+      operlator = '';
+      updateScreen();
+    }
+
+    function clearNumber(){
+      currentNumber = '0';
+      previousNumber = '';
+      operlator = '';
+      updateScreen();
+    }
+
+  </script>
+</body>
+</html>

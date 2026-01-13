@@ -31,11 +31,7 @@
 
 </body>
 <script>
-  const score = {
-    wins: 0,
-    losses: 0,
-    tie: 0
-  };
+  const score = JSON.parse(localStorage.getItem('textScore'))
 
   function playGames(playerMove) {
 
@@ -77,6 +73,8 @@
       } else if ( result === 'You Tie' ) {
         score.tie += 1;
       }
+
+      localStorage.setItem('textScore', JSON.stringify(score));
 
       alert( `You Choose ${playerMove} \nComputer Choose ${program} \n${result}!
       \nWins: ${score.wins}  Losses: ${score.losses}  Tie: ${score.tie}` );
