@@ -98,21 +98,25 @@
 
     function updateScreen (){
       console.log('Screen work');
-      document.getElementById('screen').innerHTML = currentNumber ;
+      document.getElementById('screen')
+        .innerHTML = `${previousNumber}${operlator}${currentNumber}` ;
     }
 
     function setNumber(number){
-      if (number !== '') {
+      if (currentNumber === '0') {
         currentNumber = number;
-        updateScreen();
+      } else if (currentNumber !== '0') {
+        currentNumber += number;
       }
+      updateScreen();
     }
 
     function setOperator(op){
-      if (op !== '') {
+      if (currentNumber !== '0') {
         previousNumber = currentNumber;
         currentNumber = '';
         operlator = op;
+        updateScreen();
       }
     }
 
