@@ -118,7 +118,7 @@
         currentNumber = '';
         operator = op;
         updateScreen();
-      } else if (operrator !== '' && currentNumber !== '' && previousNumber !== ''){
+      } else if (operator !== '' && currentNumber !== '' && previousNumber !== ''){
         calCulator();
         previousNumber = currentNumber;
         currentNumber = '';
@@ -133,9 +133,16 @@
       let result = 0;
       if (operator === '+'){
         result = preNumber + curNumer;
+      } else if (operator === '-'){
+        result = preNumber - curNumer;
+      } else if (operator === '×'){
+        result = preNumber * curNumer;
+      } else if (operator === '÷'){
+        result = preNumber / curNumer;
       }
 
-      currentNumber = result.toString();
+
+      currentNumber = parseFloat(result.toFixed(6)).toString();
       previousNumber = '';
       operator = '';
       updateScreen();
