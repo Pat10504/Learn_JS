@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+    .calculator {
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .display {
+      background-color: #222;
+      color: #fff;
+      font-size: 24px;
+      padding: 15px;
+      text-align: right;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      min-height: 30px;
+      word-break: break-all;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #555;
+      color: #fff;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #666;
+    }
+    button:active {
+      background-color: #444;
+    }
+    .operator {
+      background-color: #ff9500;
+    }
+    .operator:hover {
+      background-color: #ffb143;
+    }
+    .clear {
+      background-color: #d4380d;
+      grid-column: span 2;
+    }
+    .clear:hover {
+      background-color: #ff4d4f;
+    }
+    .equals {
+      background-color: #52c41a;
+      grid-column: span 2;
+    }
+    .equals:hover {
+      background-color: #73d13d;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display"></div>
+    <div class="buttons">
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="appendOperator('/')">/</button>
+
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="appendOperator('*')">*</button>
+
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button class="operator" onclick="appendOperator('-')">-</button>
+
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendNumber('.')">.</button>
+      <button class="equals" onclick="calculate()">=</button>
+      <button class="operator" onclick="appendOperator('+')">+</button>
+
+      <button class="clear" onclick="clearDisplay()">Clear</button>
+    </div>
+  </div>
+
+  <script>
+    let calculation = '';
+
+    function updateDisplay() {
+      document.getElementById('display').textContent = calculation;
+      // TODO: บันทึกค่าลง localStorage ที่นี่
+    }
+
+    function appendNumber(number) {
+      calculation += number;
+      updateDisplay();
+    }
+
+    function appendOperator(operator) {
+      calculation += operator;
+      updateDisplay();
+    }
+
+    function calculate() {
+      try {
+        calculation = eval(calculation).toString();
+        updateDisplay();
+      } catch (error) {
+        calculation = 'Error';
+        updateDisplay();
+      }
+    }
+
+    function clearDisplay() {
+      calculation = '';
+      updateDisplay();
+    }
+
+    // TODO: เมื่อหน้าโหลด ดึงค่าจาก localStorage ที่นี่
+    // ถ้าไม่มีค่า ให้ใช้ default value เป็น ''
+  </script>
+</body>
+</html>
