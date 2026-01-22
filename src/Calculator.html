@@ -63,7 +63,7 @@
     <div id="screen" class="screen"> 0 </div>
 
     <div class="bt-row">
-      <button>←</button>
+      <button onclick="backspace()">←</button>
       <button onclick="clearNumber()">AC</button>
       <button onclick="setOperator('÷')">÷</button>
     </div>
@@ -92,14 +92,18 @@
     </div>
   </div>
   <script>
-    let currentNumber = '0';
-    let previousNumber = '';
-    let operator = '';
+    let currentNumber = localStorage.getItem('currentNumber')||'0';
+    let previousNumber = localStorage.getItem('previousNumber')||'';
+    let operator = localStorage.getItem('operator')||'';
+    updateScreen();
 
     function updateScreen (){
       console.log('Screen work');
       document.getElementById('screen')
         .innerHTML = `${previousNumber}${operator}${currentNumber}` ;
+        localStorage.setItem('previousNumber', previousNumber);
+        localStorage.setItem('operator', operator);
+        localStorage.setItem('currentNumber', currentNumber);
     }
 
     function setNumber(number){
@@ -154,6 +158,17 @@
       operator = '';
       updateScreen();
     }
+
+    function backspace() {
+      if (currentNumber !== '' && currentNumber !== '0'){
+        if(currentNumber.length > 1){
+          currentNumber = currentNumber.slice(0, -1);
+        }else{
+          currentNumber = '0';
+        }
+      }
+      updateScreen();
+      }
 
   </script>
 </body>
