@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors Games</title>
+</head>
+<body>
+  <button onclick="
+    playGames('Rock');
+  ">Rock</button>
+  <button onclick="
+    playGames('Paper');
+  ">Paper</button>
+  <button onclick="
+    playGames('Scissors');
+  ">Scrissors</button>
+  <button onclick="
+
+  ">Reset Score</button>
+</body>
+<script>
+  function playGames(pick){
+    const computorRamdom = programRandom();
+    let resultGames = '';
+    if(pick === 'Rock'){
+      if(computorRamdom === 'Rock'){
+        resultGames = 'Tie';
+      }else if(computorRamdom === 'Paper'){
+        resultGames = 'Loses';
+      }else if(computorRamdom === 'Scissors'){
+        resultGames = 'Win';
+      }
+    }else if(pick === 'Paper'){
+      if(computorRamdom === 'Rock'){
+        resultGames = 'Win';
+      }else if(computorRamdom === 'Paper'){
+        resultGames = 'Tie';
+      }else if(computorRamdom === 'Scissors'){
+        resultGames = 'Loses';
+      }
+    }else if(pick === 'Scissors'){
+      if(computorRamdom === 'Rock'){
+        resultGames = 'Loses';
+      }else if(computorRamdom === 'Paper'){
+        resultGames = 'Win';
+      }else if(computorRamdom === 'Scissors'){
+        resultGames = 'Tie';
+      }
+    }
+    alert(`You Pick ${pick} Computor Pick ${computorRamdom} \n Result Games ${resultGames}`);
+  }
+  function programRandom(){
+    const randonNumber = Math.floor(Math.random()*3);
+    let resultProgram = '';
+    if(randonNumber === 0){
+      resultProgram = 'Rock';
+    }else if(randonNumber === 1){
+      resultProgram = 'Paper';
+    }else if(randonNumber === 2){
+      resultProgram = 'Scissors';
+    }
+    console.log(resultProgram);
+    return resultProgram;
+
+  }
+</script>
+</html>
