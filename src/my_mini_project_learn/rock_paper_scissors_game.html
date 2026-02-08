@@ -25,18 +25,21 @@
     transform: scale(1.2);
   }
   .container{
-    width: 800px;
-    margin: 30px auto;
-    background-color: aliceblue;
+    max-width: 1200px;
+    margin: 20px auto;
+    width: calc(100% - 40px);
+    background-color: rgb(216, 233, 248);
+    border-radius: 20px;
+  }
+  .content{
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 15px;
-    padding: 20px;
-    gap: 10px;
   }
   .btn{
     display: flex;
+    justify-content: center;
+    align-self: stretch;
     gap: 25px;
     border-bottom: 1px solid black;
     box-shadow: 0 15px 10px -11px rgb(0,0,0,0.4);
@@ -46,31 +49,51 @@
     display: flex;
     gap: 20px;
   }
+  .dashboard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  .dashboard-game{
+    display: flex;
+    gap: 20px;
+  }
 </style>
 <body>
   <div class="container">
-    <div class="btn">
-      <button onclick="
-        playGames('Rock');
-      ">Rock</button>
-      <button onclick="
-        playGames('Paper');
-      ">Paper</button>
-      <button onclick="
-        playGames('Scissors');
-      ">Scrissors</button>
-      <button onclick="
-        clearScore();
-      ">Reset Score</button>
+    <div class="content">
+      <div class="btn">
+        <button onclick="
+          playGames('Rock');
+        ">Rock</button>
+        <button onclick="
+          playGames('Paper');
+        ">Paper</button>
+        <button onclick="
+          playGames('Scissors');
+        ">Scrissors</button>
+        <button onclick="
+          clearScore();
+        ">Reset Score</button>
+      </div>
+      <div class="dashboard">
+        <div class="dashboard-game">
+          <div>คุณเลือก</div>
+          <div>คอมพิวเตอร์สุ่ม</div>
+        </div>
+        <div>ผลลัพธ์</div>
+      </div>
+      <div>
+        <h1>score</h1>
+      </div>
+      <div class="score">
+        <div>Win:</div><div id="1"></div>
+        <div>Tie:</div><div id="2"></div>
+        <div>Loses:</div><div id="3"></div>
+      </div>
     </div>
-    <div>
-      <h1>score</h1>
-    </div>
-    <div class="score">
-      <div>Win:</div><div id="1"></div>
-      <div>Tie:</div><div id="2"></div>
-      <div>Loses:</div><div id="3"></div>
-    </div>
+
   </div>
 
 </body>
