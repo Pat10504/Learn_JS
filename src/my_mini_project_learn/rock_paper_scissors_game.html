@@ -29,17 +29,20 @@
     max-width: 1200px;
     margin: 20px auto;
     width: calc(100% - 40px);
-    background-color: rgb(216, 233, 248);
+
     border-radius: 20px;
+    padding: 5px 0px;
   }
   .content{
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 15px;
+    max-width: 700px;
+    margin: 5px auto;
+    padding: 15px 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    background-color: rgb(126, 227, 253);
+    border-radius: 20px;
   }
   .btn{
     width: 100%;
@@ -50,7 +53,7 @@
     padding-bottom: 15px;
   }
   .btn button{
-    flex: 1
+    flex: 1;
   }
   .btn button:nth-child(4){
     flex: 2;
@@ -82,6 +85,18 @@
   .label-dashboard{
     font-weight: 700;
   }
+  .result-red{
+    font-weight: 800;
+    color: red;
+  }
+  .result-orange{
+    font-weight: 800;
+    color: rgb(218, 141, 0);
+  }
+  .result-green{
+    font-weight: 800;
+    color: rgb(13, 123, 37);
+  }
 </style>
 <body>
   <div class="container">
@@ -95,7 +110,7 @@
         ">Paper</button>
         <button onclick="
           playGames('Scissors');
-        ">Scrissors</button>
+        ">Scissors</button>
         <button onclick="
           clearScore();
         ">Reset Score</button>
@@ -114,7 +129,7 @@
         <div>
           <div>
             <span class="label-dashboard">ผลลัพธ์ :</span>
-            <span id="result">- - -</span>
+            <span id="result" class="result">- - -</span>
           </div>
         </div>
       </div>
@@ -183,9 +198,19 @@
     }
     localStorage.setItem('score', JSON.stringify(score));
     disPlay();
-    document.getElementById('userPick').innerHTML = `${pick}`
-    document.getElementById('comPick').innerHTML = `${computorRamdom}`
-    document.getElementById('result').innerHTML = `${resultGames}`
+
+    document.getElementById('userPick').innerHTML = pick;
+    document.getElementById('comPick').innerHTML = computorRamdom;
+    let getElement = document.getElementById('result');
+    getElement.innerHTML = resultGames;
+
+    if(resultGames === 'Win'){
+      getElement.className = 'result-green';
+    }else if(resultGames === 'Loses'){
+      getElement.className = 'result-red';
+    }else if(resultGames === 'Tie'){
+      getElement.className = 'result-orange';
+    }
   }
 
   function programRandom(){
@@ -206,6 +231,8 @@
     score.Win = 0;
     score.Tie = 0;
     score.Loses = 0;
+
+    localStorage.setItem('score', JSON.stringify(score));
     disPlay();
   }
 </script>
