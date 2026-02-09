@@ -11,8 +11,18 @@
     <p>Oders Under $40 = +$10 Shipping.</p>
     <p>Oders Over $40 = Free Shipping.</p>
     <div>
-      <input type="number" id="price">
-      <input type="button" value="Calculator" onclick="calShipping()">
+      <input type="number" id="price" onkeydown="
+        console.log(event.key);
+        if(event.key === 'Enter'){
+          calShipping();
+        }
+        if(event.key === 'e' || event.key === 'E'){
+          event.preventDefault();
+        }
+      ">
+      <input type="button" value="Calculator" onclick="
+        calShipping();
+      ">
     </div>
     <p id="result"></p>
   </div>
