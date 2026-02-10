@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>🎮 Rock Paper Scissors Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    .game-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 30px;
+      font-size: 0.9em;
+    }
+
+    /* Score Board */
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .score-item {
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .score-item:active {
+      transform: scale(0.95);
+    }
+
+    .score-label {
+      color: #888;
+      font-size: 0.9em;
+      margin-bottom: 5px;
+    }
+
+    .score-value {
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+    .wins { color: #4CAF50; }
+    .losses { color: #f44336; }
+    .ties { color: #FF9800; }
+
+    /* Game Area */
+    .game-area {
+      margin: 30px 0;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .choice-btn {
+      width: 120px;
+      height: 120px;
+      border: none;
+      border-radius: 50%;
+      font-size: 3em;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .choice-btn:active {
+      transform: scale(0.9);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Result Display */
+    .result-display {
+      margin: 30px 0;
+      padding: 30px;
+      background: #f7f7f7;
+      border-radius: 15px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .battle-area {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .player-choice, .computer-choice {
+      text-align: center;
+    }
+
+    .choice-display {
+      font-size: 4em;
+      margin: 10px 0;
+      animation: fadeIn 0.5s;
+    }
+
+    .vs {
+      font-size: 2em;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .result-text {
+      font-size: 1.8em;
+      font-weight: bold;
+      margin-top: 15px;
+      animation: bounceIn 0.5s;
+    }
+
+    .win-text { color: #4CAF50; }
+    .lose-text { color: #f44336; }
+    .tie-text { color: #FF9800; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    /* History */
+    .history {
+      margin-top: 30px;
+    }
+
+    .history-title {
+      font-size: 1.2em;
+      color: #667eea;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .history-list {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .history-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .history-item {
+      min-width: 100px;
+      padding: 15px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 0.9em;
+      flex-shrink: 0;
+    }
+
+    /* Buttons */
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: bold;
+      transition: all 0.3s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .btn-reset {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-reset:active {
+      background: #d32f2f;
+      transform: scale(0.95);
+    }
+
+    /* ========================= */
+    /* 📱 RESPONSIVE DESIGN */
+    /* ========================= */
+
+    /* iPhone 17 Pro Max - Portrait (440 x 956) */
+    @media only screen
+      and (min-width: 400px)
+      and (max-width: 450px)
+      and (orientation: portrait) {
+
+      body {
+        padding: 15px;
+        padding-top: max(15px, env(safe-area-inset-top));
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+      }
+
+      .game-container {
+        padding: 25px 20px;
+        border-radius: 25px;
+        max-width: 100%;
+      }
+
+      h1 {
+        font-size: 2em;
+        margin-bottom: 8px;
+      }
+
+      .subtitle {
+        font-size: 0.85em;
+        margin-bottom: 20px;
+      }
+
+      /* Scoreboard */
+      .scoreboard {
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .score-item {
+        padding: 15px 10px;
+        border-radius: 12px;
+      }
+
+      .score-label {
+        font-size: 0.8em;
+        margin-bottom: 3px;
+      }
+
+      .score-value {
+        font-size: 1.8em;
+      }
+
+      /* Choices */
+      .game-area {
+        margin: 20px 0;
+      }
+
+      .choices {
+        gap: 15px;
+      }
+
+      .choice-btn {
+        width: 100px;
+        height: 100px;
+        font-size: 2.8em;
+      }
+
+      /* Result Display */
+      .result-display {
+        padding: 20px 15px;
+        margin: 20px 0;
+        min-height: 180px;
+      }
+
+      .battle-area {
+        margin-bottom: 15px;
+      }
+
+      .choice-display {
+        font-size: 3em;
+        margin: 8px 0;
+      }
+
+      .vs {
+        font-size: 1.5em;
+      }
+
+      .result-text {
+        font-size: 1.5em;
+        margin-top: 10px;
+      }
+
+      /* History */
+      .history {
+        margin-top: 20px;
+      }
+
+      .history-title {
+        font-size: 1em;
+        margin-bottom: 12px;
+      }
+
+      .history-list {
+        gap: 8px;
+        padding: 8px 0;
+      }
+
+      .history-item {
+        min-width: 85px;
+        padding: 12px 8px;
+        font-size: 0.85em;
+      }
+
+      /* Controls */
+      .controls {
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 14px 25px;
+        font-size: 0.95em;
+        width: 100%;
+        max-width: 200px;
+      }
+    }
+
+    /* iPhone 17 Pro Max - Landscape (956 x 440) */
+    @media only screen
+      and (min-height: 400px)
+      and (max-height: 450px)
+      and (orientation: landscape) {
+
+      body {
+        padding: 10px;
+        padding-left: max(10px, env(safe-area-inset-left));
+        padding-right: max(10px, env(safe-area-inset-right));
+      }
+
+      .game-container {
+        padding: 15px 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        max-width: 100%;
+      }
+
+      h1 {
+        grid-column: 1 / -1;
+        font-size: 1.5em;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        grid-column: 1 / -1;
+        font-size: 0.75em;
+        margin-bottom: 10px;
+      }
+
+      .scoreboard {
+        grid-column: 1;
+        gap: 8px;
+        margin-bottom: 0;
+      }
+
+      .score-item {
+        padding: 10px;
+      }
+
+      .score-label {
+        font-size: 0.7em;
+      }
+
+      .score-value {
+        font-size: 1.5em;
+      }
+
+      .game-area {
+        grid-column: 2;
+        margin: 0;
+      }
+
+      .choices {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .choice-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 2em;
+      }
+
+      .result-display {
+        grid-column: 1 / -1;
+        padding: 15px;
+        margin: 0;
+        min-height: 120px;
+      }
+
+      .choice-display {
+        font-size: 2em;
+      }
+
+      .vs {
+        font-size: 1.2em;
+      }
+
+      .result-text {
+        font-size: 1.2em;
+        margin-top: 8px;
+      }
+
+      .history {
+        grid-column: 1 / -1;
+        margin-top: 10px;
+      }
+
+      .history-title {
+        font-size: 0.9em;
+        margin-bottom: 8px;
+      }
+
+      .history-list {
+        gap: 6px;
+      }
+
+      .history-item {
+        min-width: 70px;
+        padding: 8px;
+        font-size: 0.75em;
+      }
+
+      .controls {
+        grid-column: 1 / -1;
+        margin-top: 10px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.85em;
+      }
+    }
+
+    /* General Mobile Devices (< 600px) */
+    @media (max-width: 600px) {
+      .game-container {
+        padding: 25px 15px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      .choice-btn {
+        width: 90px;
+        height: 90px;
+        font-size: 2.5em;
+      }
+
+      .choice-display {
+        font-size: 3em;
+      }
+
+      .result-text {
+        font-size: 1.4em;
+      }
+    }
+
+    /* Very Small Devices (< 380px) */
+    @media (max-width: 380px) {
+      .game-container {
+        padding: 20px 12px;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      .choice-btn {
+        width: 75px;
+        height: 75px;
+        font-size: 2em;
+      }
+
+      .scoreboard {
+        gap: 8px;
+      }
+
+      .score-item {
+        padding: 12px 8px;
+      }
+
+      .score-value {
+        font-size: 1.5em;
+      }
+    }
+
+    /* Large Tablets and Desktop */
+    @media (min-width: 768px) {
+      .choice-btn:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      }
+
+      .btn-reset:hover {
+        background: #d32f2f;
+        transform: translateY(-2px);
+      }
+
+      .score-item:hover {
+        transform: translateY(-5px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>🎮 Rock Paper Scissors Pro</h1>
+    <p class="subtitle">เลือกอาวุธของคุณ!</p>
+
+    <!-- Scoreboard -->
+    <div class="scoreboard">
+      <div class="score-item">
+        <div class="score-label">ชนะ</div>
+        <div class="score-value wins" id="winsScore">0</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">แพ้</div>
+        <div class="score-value losses" id="lossesScore">0</div>
+      </div>
+      <div class="score-item">
+        <div class="score-label">เสมอ</div>
+        <div class="score-value ties" id="tiesScore">0</div>
+      </div>
+    </div>
+
+    <!-- Game Area -->
+    <div class="game-area">
+      <div class="choices">
+        <button class="choice-btn" onclick="playGame('Rock')" title="Rock">
+          ✊
+        </button>
+        <button class="choice-btn" onclick="playGame('Paper')" title="Paper">
+          ✋
+        </button>
+        <button class="choice-btn" onclick="playGame('Scissors')" title="Scissors">
+          ✌️
+        </button>
+      </div>
+    </div>
+
+    <!-- Result Display -->
+    <div class="result-display" id="resultDisplay">
+      <p style="color: #888;">เลือกอาวุธเพื่อเริ่มเกม!</p>
+    </div>
+
+    <!-- History -->
+    <div class="history">
+      <div class="history-title">📊 ประวัติ 5 เกมล่าสุด</div>
+      <div class="history-list" id="historyList">
+        <div class="history-item">ยังไม่มีประวัติ</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="btn btn-reset" onclick="resetGame()">
+        🔄 รีเซ็ตคะแนน
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Game State - ใช้ Object เก็บข้อมูลเกม
+    const gameState = {
+      wins: 0,
+      losses: 0,
+      ties: 0,
+      history: []
+    };
+
+    // โหลดข้อมูลจาก Local Storage เมื่อเริ่มเกม
+    function loadGameState() {
+      const savedState = localStorage.getItem('rpsGameState');
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        gameState.wins = parsed.wins || 0;
+        gameState.losses = parsed.losses || 0;
+        gameState.ties = parsed.ties || 0;
+        gameState.history = parsed.history || [];
+        updateDisplay();
+      }
+    }
+
+    // บันทึกข้อมูลลง Local Storage
+    function saveGameState() {
+      localStorage.setItem('rpsGameState', JSON.stringify(gameState));
+    }
+
+    // ฟังก์ชันหลักของเกม
+    function playGame(playerMove) {
+      const computerMove = getComputerMove();
+      const result = determineWinner(playerMove, computerMove);
+
+      // อัพเดทคะแนน
+      updateScore(result);
+
+      // เพิ่มประวัติ
+      addToHistory(playerMove, computerMove, result);
+
+      // แสดงผล
+      displayResult(playerMove, computerMove, result);
+
+      // บันทึกข้อมูล
+      saveGameState();
+
+      // เล่นเสียง (สามารถเพิ่ม Audio ได้)
+      playSound(result);
+    }
+
+    // สุ่มตัวเลือกของคอมพิวเตอร์
+    function getComputerMove() {
+      const moves = ['Rock', 'Paper', 'Scissors'];
+      const randomIndex = Math.floor(Math.random() * 3);
+      return moves[randomIndex];
+    }
+
+    // ตัดสินผลการเล่น
+    function determineWinner(player, computer) {
+      if (player === computer) return 'tie';
+
+      const winConditions = {
+        'Rock': 'Scissors',
+        'Paper': 'Rock',
+        'Scissors': 'Paper'
+      };
+
+      return winConditions[player] === computer ? 'win' : 'lose';
+    }
+
+    // อัพเดทคะแนน
+    function updateScore(result) {
+      if (result === 'win') gameState.wins++;
+      else if (result === 'lose') gameState.losses++;
+      else gameState.ties++;
+
+      updateScoreDisplay();
+    }
+
+    // อัพเดทการแสดงผลคะแนน
+    function updateScoreDisplay() {
+      document.getElementById('winsScore').textContent = gameState.wins;
+      document.getElementById('lossesScore').textContent = gameState.losses;
+      document.getElementById('tiesScore').textContent = gameState.ties;
+    }
+
+    // แสดงผลการเล่น
+    function displayResult(playerMove, computerMove, result) {
+      const emoji = {
+        'Rock': '✊',
+        'Paper': '✋',
+        'Scissors': '✌️'
+      };
+
+      const resultText = {
+        'win': 'คุณชนะ! 🎉',
+        'lose': 'คุณแพ้! 😢',
+        'tie': 'เสมอกัน! 🤝'
+      };
+
+      const resultClass = {
+        'win': 'win-text',
+        'lose': 'lose-text',
+        'tie': 'tie-text'
+      };
+
+      const resultDisplay = document.getElementById('resultDisplay');
+      resultDisplay.innerHTML = `
+        <div class="battle-area">
+          <div class="player-choice">
+            <div style="color: #888; font-size: 0.85em;">คุณ</div>
+            <div class="choice-display">${emoji[playerMove]}</div>
+            <div style="color: #888; font-size: 0.85em;">${playerMove}</div>
+          </div>
+          <div class="vs">VS</div>
+          <div class="computer-choice">
+            <div style="color: #888; font-size: 0.85em;">คอม</div>
+            <div class="choice-display">${emoji[computerMove]}</div>
+            <div style="color: #888; font-size: 0.85em;">${computerMove}</div>
+          </div>
+        </div>
+        <div class="result-text ${resultClass[result]}">
+          ${resultText[result]}
+        </div>
+      `;
+
+      // เพิ่ม animation
+      resultDisplay.classList.add('shake');
+      setTimeout(() => resultDisplay.classList.remove('shake'), 500);
+    }
+
+    // เพิ่มประวัติการเล่น
+    function addToHistory(playerMove, computerMove, result) {
+      const emoji = {
+        'Rock': '✊',
+        'Paper': '✋',
+        'Scissors': '✌️'
+      };
+
+      const historyItem = {
+        player: playerMove,
+        computer: computerMove,
+        result: result,
+        emoji: emoji
+      };
+
+      gameState.history.unshift(historyItem);
+
+      // เก็บแค่ 5 เกมล่าสุด
+      if (gameState.history.length > 5) {
+        gameState.history.pop();
+      }
+
+      updateHistoryDisplay();
+    }
+
+    // อัพเดทการแสดงผลประวัติ
+    function updateHistoryDisplay() {
+      const historyList = document.getElementById('historyList');
+
+      if (gameState.history.length === 0) {
+        historyList.innerHTML = '<div class="history-item">ยังไม่มีประวัติ</div>';
+        return;
+      }
+
+      const resultIcon = {
+        'win': '✅',
+        'lose': '❌',
+        'tie': '➖'
+      };
+
+      historyList.innerHTML = gameState.history.map(item => `
+        <div class="history-item">
+          <div style="font-size: 1.5em; margin-bottom: 5px;">
+            ${item.emoji[item.player]} vs ${item.emoji[item.computer]}
+          </div>
+          <div style="font-size: 1.2em;">
+            ${resultIcon[item.result]}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // รีเซ็ตเกม
+    function resetGame() {
+      if (confirm('คุณต้องการรีเซ็ตคะแนนทั้งหมดหรือไม่?')) {
+        gameState.wins = 0;
+        gameState.losses = 0;
+        gameState.ties = 0;
+        gameState.history = [];
+
+        updateDisplay();
+        saveGameState();
+
+        document.getElementById('resultDisplay').innerHTML =
+          '<p style="color: #888;">เลือกอาวุธเพื่อเริ่มเกมใหม่!</p>';
+      }
+    }
+
+    // อัพเดทการแสดงผลทั้งหมด
+    function updateDisplay() {
+      updateScoreDisplay();
+      updateHistoryDisplay();
+    }
+
+    // จำลองเสียง (สามารถเพิ่ม Audio ได้)
+    function playSound(result) {
+      console.log(`🔊 เล่นเสียง: ${result}`);
+    }
+
+    // เริ่มเกมเมื่อโหลดหน้าเว็บ
+    window.onload = function() {
+      loadGameState();
+      console.log('🎮 เกมพร้อมแล้ว!');
+    };
+  </script>
+</body>
+</html>

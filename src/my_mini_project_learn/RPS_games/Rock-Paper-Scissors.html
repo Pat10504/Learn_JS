@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock-Paper-Scissors-Games</title>
+
+  <link rel="stylesheet" href="Rock-Paper-Scissors.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <div class="container">
+        <div class="content">
+          <div class="btn">
+            <button onclick="playGames('Rock');">
+              <i class="fa-solid fa-hammer" style="color: #FFD43B;"></i>
+            </button>
+            <button onclick="playGames('Paper');">
+              <i class="fa-solid fa-hand fa-rotate-by" style="color: #FFD43B; --fa-rotate-angle: 45deg;"></i>
+            </button>
+            <button onclick="playGames('Scissors');">
+              <i class="fa-solid fa-scissors fa-rotate-by" style="color: #FFD43B; --fa-rotate-angle: 315deg;"></i>
+            </button>
+          </div>
+          <div class="dashboard">
+            <div class="dashboard-game">
+              <div>
+                <span class="label-dashboard">คุณเลือก :</span>
+                <span id="userPick">- - -</span>
+              </div>
+              <div>
+                <span class="label-dashboard">คอมพิวเตอร์สุ่ม :</span>
+                <span id="comPick">- - -</span>
+              </div>
+            </div>
+            <div>
+              <div>
+                <span class="label-dashboard">ผลลัพธ์ :</span>
+                <span id="result" class="result">- - -</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button onclick="
+              clearScore();
+            ">reset</button>
+          </div>
+          <div>
+            <h1>score</h1>
+          </div>
+          <div class="score">
+            <div>Win:</div><div id="1"></div>
+            <div>Tie:</div><div id="2"></div>
+            <div>Loses:</div><div id="3"></div>
+          </div>
+    </div>
+  </div>
+</body>
+<script src="Rock-Paper-Scissors.js"></script>
+</html>
