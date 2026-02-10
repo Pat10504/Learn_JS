@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Capture</title>
+    <style>
+        .camera-container {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        video, canvas {
+            width: 100%;
+            border: 2px solid #333;
+        }
+        canvas {
+            display: none;
+        }
+        .preview {
+            margin-top: 20px;
+        }
+        button {
+            margin: 10px 5px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="camera-container">
+        <h2>Camera Capture Demo</h2>
+
+        <!-- Video element สำหรับแสดงภาพจากกล้อง -->
+        <video id="video" autoplay></video>
+
+        <!-- Canvas สำหรับจับภาพ (ซ่อนไว้) -->
+        <canvas id="canvas"></canvas>
+
+        <!-- ปุ่มควบคุม -->
+        <button id="startCamera">เปิดกล้อง</button>
+        <button id="capture">ถ่ายภาพ</button>
+
+        <!-- แสดงภาพที่ถ่าย -->
+        <div class="preview">
+            <h3>ภาพที่ถ่าย:</h3>
+            <img id="photo" style="width:100%; display:none;">
+        </div>
+
+        <!-- Form สำหรับส่งข้อมูล -->
+        <form id="myForm">
+            <input type="text" name="name" placeholder="ชื่อ" required>
+            <input type="hidden" id="photoData" name="photo">
+            <button type="submit">บันทึก</button>
+        </form>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const photo = document.getElementById('photo');
+        const startBtn = document.getElementById('startCamera');
+        const captureBtn = document.getElementById('capture');
+        const photoData = document.getElementById('photoData');
+        const form = document.getElementById('myForm');
+
+        let stream = null;
+
+        // 1. เปิดกล้อง
+        startBtn.addEventListener('click', async function() {
+            try {
+                // ขอสิทธิ์เข้าถึงกล้อง
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: true
+                });
+
+                // แสดงภาพจากกล้องใน video element
+                video.srcObject = stream;
+
+                alert('เปิดกล้องสำเร็จ!');
+            } catch (error) {
+                alert('ไม่สามารถเข้าถึงกล้องได้: ' + error.message);
+            }
+        });
+
+        // 2. ถ่ายภาพ
+        captureBtn.addEventListener('click', function() {
+            if (!stream) {
+                alert('กรุณาเปิดกล้องก่อน');
+                return;
+            }
+
+            // ตั้งค่าขนาด canvas ให้เท่ากับ video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // วาดภาพจาก video ลงบน canvas
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0);
+
+            // แปลง canvas เป็น data URL (Base64)
+            const imageDataURL = canvas.toDataURL('image/jpeg');
+
+            // แสดงภาพที่ถ่าย
+            photo.src = imageDataURL;
+            photo.style.display = 'block';
+
+            // เก็บข้อมูลภาพใน hidden input
+            photoData.value = imageDataURL;
+
+            alert('ถ่ายภาพสำเร็จ!');
+        });
+
+        // 3. ส่งฟอร์ม
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!photoData.value) {
+                alert('กรุณาถ่ายภาพก่อน');
+                return;
+            }
+
+            // ในที่นี้คุณจะส่งข้อมูลไปยัง server
+            // สามารถใช้ fetch() หรือ XMLHttpRequest
+            const formData = new FormData(form);
+
+            console.log('ข้อมูลที่จะส่ง:', {
+                name: formData.get('name'),
+                photo: formData.get('photo').substring(0, 50) + '...' // แสดงบางส่วน
+            });
+
+            alert('บันทึกข้อมูลสำเร็จ! (ตรวจสอบ Console)');
+        });
+    </script>
+</body>
+</html>
