@@ -6,6 +6,7 @@
 }
 body{
   background-color: #183358;
+  color: aliceblue;
 }
 .container{
   display: flex;
@@ -46,4 +47,16 @@ body{
     50%  { transform: translate(-5px, 5px); }
     75%  { transform: translate(5px, -5px); }
     100% { transform: translate(0, 0); }
+}
+.dashboard{
+  width: 100%;
+}
+.dashboard-game{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+.result-text{
+  text-align: center;
+  margin-top: 40px;
 }
