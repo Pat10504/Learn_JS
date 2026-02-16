@@ -75,3 +75,15 @@ function random(){
     resultRandomNumber = 'Scissors';
   }return resultRandomNumber;
 }
+
+function resetGames(){
+  score.Win = 0;
+  score.Loses = 0;
+  score.Tie = 0;
+  document.getElementById('userPick').innerHTML = '- - -';
+  document.getElementById('comPick').innerHTML = '- - -';
+  document.getElementById('result').innerHTML = '- - -';
+  document.getElementById('1').innerHTML = score.Win;
+  document.getElementById('2').innerHTML = score.Tie;
+  document.getElementById('3').innerHTML = score.Loses;
+}
