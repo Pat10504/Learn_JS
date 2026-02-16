@@ -15,7 +15,7 @@ body{
 .content{
   background-color: #29466e;
   width: 700px;
-  padding: 20px 30px;
+  padding: 40px 30px;
   border-radius: 30px;
   margin: 40px auto;
   display: flex;
@@ -37,9 +37,12 @@ body{
   background: transparent;
   border: none;
   cursor: pointer;
+  filter: drop-shadow(0 0px 20px rgba(35, 35, 35));
+
 }
 .btn > button:hover{
   animation: shake 1s ease;
+  filter: drop-shadow(0 0px 30px rgba(35, 35, 35));
 }
 @keyframes shake {
     0%   { transform: translate(0, 0); }
@@ -56,7 +59,62 @@ body{
   justify-content: space-around;
   margin-top: 20px;
 }
+.dashboard-game > div{
+  background-color: rgb(35, 35, 35);
+  padding: 15px 25px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .result-text{
   text-align: center;
   margin-top: 40px;
+  background-color: rgb(35, 35, 35);
+  padding: 15px 25px;
+  border-radius: 50px;
+}
+.btn-head{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.btn-reset{
+  flex: 0.3;
+  padding: 20px;
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 15px;
+  border: none;
+  background-color: #f1d260;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  box-shadow: 0px 0px 20px 4px rgb(0, 0, 0);
+}
+.btn-reset:hover{
+  transform: scale(1.1);
+  box-shadow: 0px 0px 20px 4px rgb(0, 0, 0);
+}
+.score{
+  width: 100%;
+  background-color: rgb(14, 14, 14);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+.score > h1 {
+  margin-bottom:10px ;
+}
+.score-content{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.icon-display{
+  font-size: 30px;
 }
