@@ -9,7 +9,7 @@ getData();
 function getData() {
   const saved = localStorage.getItem('storageGames');
   if(saved) {
-    gamesData = JSON.parse(saved);
+    const gamesData = JSON.parse(saved);
 
     score.Win = gamesData.score.Win;
     score.Loses = gamesData.score.Loses;
@@ -20,7 +20,7 @@ function getData() {
       gamesData.lastGames.programRandom,
       gamesData.lastGames.resultGames
     );
-    
+
   }else {
     document.getElementById('1').innerHTML = score.Win;
     document.getElementById('2').innerHTML = score.Tie;
@@ -114,7 +114,8 @@ function random(){
     resultRandomNumber = 'Paper';
   }else if(randomNumBer === 2){
     resultRandomNumber = 'Scissors';
-  }return resultRandomNumber;
+  }
+  return resultRandomNumber;
 }
   // ล้างค่า
 function resetGames(){
