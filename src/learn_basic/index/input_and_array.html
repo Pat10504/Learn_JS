@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    li{
+        list-style-type: none;
+    }
+</style>
+<body>
+    <div>
+        test input array
+    </div>
+    <div>
+        <input type="text" placeholder="please some text" id="inputId" onkeydown="
+            if(event.key === 'Enter') {
+                addText();
+            }
+        ">
+        <button onclick="
+            addText();
+        ">Enter</button>
+        <ul id="pText"></ul>
+    </div>
+</body>
+<script src="../script/input_and_array.js"></script>
+</html>
