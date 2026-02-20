@@ -3,6 +3,20 @@ const score = {
   Loses: 0,
   Tie: 0
 }
+let playAuto = true;
+let interVal;
+function autoPlay() {
+  if(playAuto){
+    interVal = setInterval(() => {
+    const move = random();
+    playGames(move);
+  }, 1000);
+  playAuto = false;
+  }else{
+    clearInterval(interVal);
+    playAuto = true;
+  }
+}
 
   // browserload
 getData();

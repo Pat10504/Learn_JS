@@ -26,17 +26,17 @@
             <div class="dashboard-game">
               <div>
                 <span class="label-dashboard">คุณเลือก :</span>
-                <span id="userPick">- - -</span>
+                <span id="userPick"> - </span>
               </div>
               <div>
                 <span class="label-dashboard">คอมพิวเตอร์สุ่ม :</span>
-                <span id="comPick">- - -</span>
+                <span id="comPick"> - </span>
               </div>
             </div>
             <div>
               <div class="result-text">
                 <span class="label-dashboard">ผลลัพธ์ :</span>
-                <span id="result" class="result">- - -</span>
+                <span id="result" class="result"> - </span>
               </div>
             </div>
           </div>
@@ -44,6 +44,9 @@
             <button class="btn-reset" onclick="
               resetGames();
             ">reset</button>
+            <button class="btn-auto-play" onclick="
+              autoPlay();
+            ">Play Auto</button>
           </div>
           <div class="score">
             <h1>score</h1>
